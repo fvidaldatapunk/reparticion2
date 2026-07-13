@@ -1,12 +1,15 @@
 
 from supabase import create_client
+from dotenv import load_dotenv
 import os
 import pandas as pd
 import yfinance as yf
 import streamlit as st
 
-url = 'https://sqydjiwkknryihplfswf.supabase.co'
-key = 'sb_publishable_boOGTjwfIxofQUydPftoUw_o2GS_NL1'
+load_dotenv()
+
+url = os.getenv('SUPABASE_URL')
+key = os.getenv('SUPABASE_KEY')
 
 supabase = create_client(url,key)
 
