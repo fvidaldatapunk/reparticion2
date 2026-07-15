@@ -6,7 +6,11 @@ import pandas as pd
 import yfinance as yf
 import streamlit as st
 
+
+
+
 load_dotenv()
+
 
 url = os.getenv('SUPABASE_URL')
 key = os.getenv('SUPABASE_KEY')
@@ -38,7 +42,7 @@ valor_ecoscouting = float(0.60)
 df_entregas['Total € Paack'] = (df_entregas['paack']*valor_paack)
 df_entregas['Total € Ecoscouting'] = (df_entregas['ecoscouting']*valor_ecoscouting)
 df_entregas['total_euro'] = (df_entregas['Total € Paack'] + df_entregas['Total € Ecoscouting']).round(2)
-df_entregas['Total Conv R$'] = (df_entregas['total_euro']*conveu)
+df_entregas['Total Conv R$'] = (df_entregas['total_euro']*conveu).round(2)
 
 
 #visão consolidado mês
@@ -104,4 +108,3 @@ st.dataframe(df_quincena)
 
 st.header('Vision Diária')
 st.dataframe(diaria)
-
