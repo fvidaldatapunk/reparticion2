@@ -4,3 +4,4 @@ streamlit
 supabase
 python-dotenv
 yfinance
+plotly.express
