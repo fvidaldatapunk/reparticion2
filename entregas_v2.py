@@ -1,10 +1,12 @@
 
 from supabase import create_client
 from dotenv import load_dotenv
+import plotly.express as px
 import os
 import pandas as pd
 import yfinance as yf
 import streamlit as st
+
 
 
 
@@ -83,28 +85,34 @@ diaria = (df_entregas[[
         'Total € Ecoscouting',
         'total_euro',
         'Total Conv R$'
-]]).reset_index()
+]]).reset_index(drop=True)
 
 st.title('Dashboard Repartos') 
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
 
 col1.metric('Dias',f'{df_entregas['data'].count()}')
 col2.metric('Paack',f'{df_entregas['paack'].sum()}')
 col3.metric('ecoscouting',f'{df_entregas['ecoscouting'].sum()}')
-
-col4, col5, col6, col7 = st.columns(4)
-
 col4.metric('Total € Paack',f'{df_entregas['Total € Paack'].sum():.2f}')
 col5.metric('Total € Ecoscouting',f'{df_entregas['Total € Ecoscouting'].sum():.2f}')
 col6.metric('Total Euro',f'{df_entregas['total_euro'].sum():.2f}')
 col7.metric('Total Conv R$',f'{df_entregas['Total Conv R$'].sum():.2f}')
 
+graf = px.line(diaria, x='Data format', y=['Total € Paack','Total € Ecoscouting'],
+               title='Arrecadação por dia',labels={'Data format':'Data','value':'Total EU'})
+
+graf.update_layout(legend=dict(title_text='',orientation='h', yanchor ='bottom',y=-0.5, xanchor='center',x=0.5))
+graf.update_traces(mode='lines+markers')
+
+st.set_page_config(layout="wide")
 st.header('Consolidado')
-st.dataframe(consolidado)
+st.dataframe(consolidado.reset_index(drop=True),hide_index=True)
 
 st.header('Quincena')
-st.dataframe(df_quincena)
+st.dataframe(df_quincena.reset_index(drop=True),hide_index=True)
 
 st.header('Vision Diária')
-st.dataframe(diaria)
+st.dataframe(diaria,hide_index=True)
+
+st.plotly_chart(graf)
