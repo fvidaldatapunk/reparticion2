@@ -105,6 +105,12 @@ graf = px.line(diaria, x='Data format', y=['Total € Paack','Total € Ecoscout
 graf.update_layout(legend=dict(title_text='',orientation='h', yanchor ='bottom',y=-0.5, xanchor='center',x=0.5))
 graf.update_traces(mode='lines+markers')
 
+graf2 = px.line(diaria, x='Data format', y=['paack','ecoscouting'],
+               title='Qtd Pacotes',labels={'Data format':'Data','value':'Total'})
+
+graf2.update_layout(legend=dict(title_text='',orientation='h', yanchor ='bottom',y=-0.5, xanchor='center',x=0.5))
+graf2.update_traces(mode='lines+markers')
+
 st.set_page_config(layout="wide")
 st.header('Consolidado')
 st.dataframe(consolidado.reset_index(drop=True),hide_index=True)
@@ -115,4 +121,7 @@ st.dataframe(df_quincena.reset_index(drop=True),hide_index=True)
 st.header('Vision Diária')
 st.dataframe(diaria,hide_index=True)
 
+st.plotly_chart(graf2)
 st.plotly_chart(graf)
+
+
